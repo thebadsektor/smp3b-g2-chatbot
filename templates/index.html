@@ -14,44 +14,108 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: auto;
+            background-color: black;
+            background-image: url('/static/lspubg1.png');
+            background-repeat: no-repeat;
+            background-size: 300px 100px;
+            
+            
         }
         
         .card {
             width: 33.33%;
             height: 90%;
+            text-align: center;
+            color: #1e90ff;
+            background-color: black;
+           
+            
+            
+            
+        
+
         }
+
+        
 
         .card-body {
             overflow-y: auto;
             height: calc(100% - 2.5rem - 2.5rem); /* subtract the heights of the header and footer */
+            text-align: justify;
+
+            
+            
+        
+            
         }
 
         .chat-response-wrapper {
-            border-radius: 5px;
-            padding: 10px;
+            border-radius: 15px;
+            padding: 5px;
             margin: 10px;
-        }
+            transition: opacity 0.3s ease; /* Added transition */
+            
+    }
 
         .chat-response-wrapper p {
             font-size: 0.75rem; /* Adjust as needed */
             line-height: 1.3; /* Adjust as needed */
             margin-bottom: 0.2rem; /* Remove default paragraph margin */
+             
         }
+
+        p {
+            color: #1e90ff;
+        }
+
+        #chatbox {
+            background-color: whitesmoke;
+               
+        }
+
+       #chat-input {
+        border-radius: 15px;
+       }
+
+       #send-btn {
+        border-radius: 15px;
+        margin-left: 8px;
+        box-shadow: 0 0 5px #221133,
+        0 0 25px #1e90ff;
+       }
+
+       send-btn:hover {
+        box-shadow: 0 0 5px #1e90ff,
+        0 0 25px #1e90ff, 0 0 50px #1e90ff,
+        0 0 100px #1e90ff, 0 0 200px #1e90ff;
+       }
+
+       #footer {
+        background-color: black;
+       }
+
+       
+
+    
+
+       
+        
 
     </style>
 
-    <title>Gerabot</title>
+    <title>ContinuED AssistBot</title>
 </head>
 <body onload="bot_greet('Hello');">
-    <div class="container-fluid card-container p-10" style="background-color:lightgray">
+    <div class="container-fluid card-container p-10" style="background-color:#1e90ff">
         <div class="card">
             <div class="card-header font-weight-bold">
-                Gerabot
+                <img src="{{ url_for('static', filename='lspulogo.png') }}" alt="Logo" class="logo-image">
+                    LSPU Sta.Cruz Campus ContinuED AssistBot
+                <img src="{{ url_for('static', filename='bot.png') }}" alt="Logo" class="logo-image">
             </div>
-            <div class="card-body chatbox" id="chatbox">
-              
-            </div>
-            <div class="card-footer">
+            <div class="card-body chatbox" id="chatbox"></div>
+            <div class="card-footer" id="footer">
                 <div class="input-group">
                     <input type="text" name="msg" class="form-control" id="chat-input">
                     <div class="input-group-append">
@@ -76,7 +140,7 @@
         $('#send-btn').click(function() {
             var text = $('#chat-input').val();
             rawText = text; 
-            $('.chatbox').append('<div class="chat-response-wrapper border border-success"><p> <span class="font-weight-bold">Username </span> <span class="text-sm text-secondary" style="font-size: 0.60rem">10:35 AM</span></p><p>' + text + '</p></div>');
+            $('.chatbox').append('<div class="chat-response-wrapper border border-success"><p> <span class="font-weight-bold">Me </span> <span class="text-sm text-secondary" style="font-size: 0.60rem">10:35 AM</span></p><p>' + text + '</p></div>');
             $('#chat-input').val('');
 
             // Scroll to the bottom
@@ -85,19 +149,26 @@
         });
 
         function bot_greet(firstText) {
-          $.get("/get", { msg: firstText }).done(function(data) {
-            var botHtml = '<div class="chat-response-wrapper border border-primary"><p> <span class="font-weight-bold">Gerabot </span> <span class="text-sm text-secondary" style="font-size: 0.60rem">10:35 AM</span></p><p>' + data + '</p></div>';
-            $("#chatbox").append(botHtml);
-          });
+            $.get("/get", { msg: firstText }).done(function(data) {
+                var botHtml = '<div class="chat-response-wrapper border border-primary"><p> <span class="font-weight-bold">ContinuED AssistBot </span> <span class="text-sm text-secondary" style="font-size: 0.60rem">10:35 AM</span></p><p>' + data + '</p></div>';
+                $("#chatbox").append(botHtml);
+            });
         }
 
         function get_response() {
-          $.get("/get", { msg: rawText }).done(function(data) {
-            console.log(rawText);
-            var botHtml = '<div class="chat-response-wrapper border border-primary"><p> <span class="font-weight-bold">Gerabot </span> <span class="text-sm text-secondary" style="font-size: 0.60rem">10:35 AM</span></p><p>' + data + '</p></div>';
-            $("#chatbox").append(botHtml);
-          });
+            $('.chatbox').append('<div class="chat-response-wrapper border border-primary" id="dots-wrapper"><p><span class="dots"></span></p></div>');
+            // Scroll to the bottom
+            $('.chatbox').scrollTop($('.chatbox')[0].scrollHeight);
+
+            $.get("/get", { msg: rawText }).done(function(data) {
+                $('#dots-wrapper').remove();
+                var botHtml = '<div class="chat-response-wrapper border border-primary"><p> <span class="font-weight-bold">ContinuED AssistBot </span> <span class="text-sm text-secondary" style="font-size: 0.60rem">10:35 AM</span></p><p>' + data + '</p></div>';
+                $("#chatbox").append(botHtml);
+                // Scroll to the bottom
+                $('.chatbox').scrollTop($('.chatbox')[0].scrollHeight);
+            });
         }
+
     </script>
 </body>
 </html>

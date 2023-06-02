@@ -7,7 +7,7 @@ from botRespond import getResponse
 
 app = Flask(__name__)
 
-chatbotName = 'Gerabot'
+chatbotName = 'ContinuED AssistBot'
 
 #Create Log file
 try:
@@ -23,7 +23,7 @@ def index():
 def get_bot_response():
     userText = request.args.get('msg')
     botReply = str(getResponse(userText))
-    if botReply == "IDKresponse":
+    if botReply == "Sorry your question is not in my data. Thank you :)":
         botReply = str(getResponse('IDKnull')) ##Send the i don't know code back to the DB
     elif botReply == "getTIME":
         botReply = "getTime()"
@@ -31,7 +31,7 @@ def get_bot_response():
         botReply = "getDate()"
     ##Log to CSV file
     print("Logging to CSV file now")
-    with open('BotLog.csv', 'a', newline='') as logFile:
+    with open('data/log.csv', 'a', newline='') as logFile:
         newFileWriter = csv.writer(logFile)
         newFileWriter.writerow([userText, botReply])
         logFile.close()
